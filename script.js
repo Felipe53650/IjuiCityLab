@@ -451,21 +451,30 @@ window.addEventListener('keydown', (event) => {
 });
 
 document.querySelectorAll('.faq-question').forEach((button) => {
-  button.addEventListener('click', () => {
+  button.addEventListener('click', (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+
     const item = button.parentElement;
     const answer = item.querySelector('.faq-answer');
     const isOpen = item.classList.contains('open');
 
     document.querySelectorAll('.faq-item.open').forEach((openItem) => {
+      if (openItem === item) return;
       openItem.classList.remove('open');
       openItem.querySelector('.faq-question')?.setAttribute('aria-expanded', 'false');
-      openItem.querySelector('.faq-answer').style.maxHeight = null;
+      const openAnswer = openItem.querySelector('.faq-answer');
+      if (openAnswer) openAnswer.style.maxHeight = null;
     });
 
     if (!isOpen) {
       item.classList.add('open');
       button.setAttribute('aria-expanded', 'true');
       answer.style.maxHeight = `${answer.scrollHeight}px`;
+    } else {
+      item.classList.remove('open');
+      button.setAttribute('aria-expanded', 'false');
+      answer.style.maxHeight = null;
     }
   });
 });
