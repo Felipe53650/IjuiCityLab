@@ -33,7 +33,7 @@
     <li><a href="#ecossistema">Ecossistema</a></li>
   </ul>
   <div class="nav-right">
-    <a href="#contato" class="btn-outline">Contato</a>
+    <a href="/portal" class="btn-outline">Portal</a>
     <a href="#participar" class="btn-solid">Participar</a>
     <button class="hamburger" aria-label="Abrir menu" aria-expanded="false">
       <span></span>
@@ -56,6 +56,7 @@
   <a href="#ecossistema">ECOSSISTEMA</a>
   <a href="#faq">FAQ</a>
   <a href="#contato">CONTATO</a>
+  <a href="/portal">PORTAL DO PARTICIPANTE</a>
   <a href="#participar" class="btn-solid">PARTICIPAR</a>
 </div>
 
@@ -597,11 +598,11 @@
       </div>
       <form class="contact-form reveal">
         <div class="form-row">
-          <input type="text" placeholder="Seu nome" required>
-          <input type="email" placeholder="Seu e-mail" required>
+          <input type="text" name="name" placeholder="Seu nome" autocomplete="name" required>
+          <input type="email" name="email" placeholder="Seu e-mail" autocomplete="email" required>
         </div>
-        <input type="text" placeholder="Nome da empresa">
-        <select required>
+        <input type="text" name="company" placeholder="Nome da empresa" autocomplete="organization">
+        <select name="area" required>
           <option value="" disabled selected>Área de interesse</option>
           <option value="mobilidade">Mobilidade urbana</option>
           <option value="energia">Energia inteligente</option>
@@ -610,7 +611,7 @@
           <option value="dados">Dados e IoT</option>
           <option value="outro">Outro</option>
         </select>
-        <textarea placeholder="Descreva brevemente seu projeto ou dúvida"></textarea>
+        <textarea name="message" placeholder="Descreva brevemente seu projeto ou dúvida"></textarea>
         <button type="submit" class="btn-solid">Enviar mensagem</button>
         <p class="form-feedback" role="status" aria-live="polite"></p>
       </form>
@@ -720,6 +721,8 @@
         <li><a href="#como-funciona">Como participar</a></li>
         <li><a href="#faq">Perguntas frequentes</a></li>
         <li><a href="#contato">Contato</a></li>
+        <li><a href="/portal">Portal do participante</a></li>
+        <li><a href="/admin">Administração</a></li>
       </ul>
     </div>
     <div class="footer-col">

@@ -2065,6 +2065,10 @@
     font-size: 13px;
     color: var(--accent);
   }
+  .form-feedback.is-ok,
+  .proposal-feedback.is-ok { color: #58d68d; }
+  .form-feedback.is-error,
+  .proposal-feedback.is-error { color: #ef6c6c; }
 
   /* ──────────────────── CTA ──────────────────── */
   .cta-block {
