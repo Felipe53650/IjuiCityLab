@@ -1,16 +1,3 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Ijuí City Lab — Laboratório urbano de inovação. Sandbox regulatório no bairro São Geraldo para empresas testarem soluções de cidade inteligente.">
-<title>Ijuí City Lab — Laboratório Urbano de Inovação</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
-</head>
-<body>
 <a href="#conteudo" class="skip-link">Pular para o conteúdo</a>
 
 <!-- NAV -->
@@ -23,6 +10,7 @@
     </div>
   </a>
   <ul class="nav-links">
+    <li><a href="#painel">Painel</a></li>
     <li><a href="#sobre">Sobre</a></li>
     <li><a href="#mapa-sandbox">Mapa</a></li>
     <li><a href="#incentivos">Incentivos</a></li>
@@ -33,7 +21,7 @@
     <li><a href="#ecossistema">Ecossistema</a></li>
   </ul>
   <div class="nav-right">
-    <a href="#contato" class="btn-outline">Contato</a>
+    <a href="/portal" class="btn-outline">Portal</a>
     <a href="#participar" class="btn-solid">Participar</a>
     <button class="hamburger" aria-label="Abrir menu" aria-expanded="false">
       <span></span>
@@ -56,6 +44,7 @@
   <a href="#ecossistema">ECOSSISTEMA</a>
   <a href="#faq">FAQ</a>
   <a href="#contato">CONTATO</a>
+  <a href="/portal">PORTAL DO PARTICIPANTE</a>
   <a href="#participar" class="btn-solid">PARTICIPAR</a>
 </div>
 
@@ -142,6 +131,65 @@
     </div>
   </div>
 </div>
+
+<!-- VISUALIZADOR AO VIVO -->
+<section class="viz" id="painel">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="sec-tag">Painel ao vivo</div>
+      <h2 class="sec-title">O que está acontecendo no Lab agora</h2>
+      <p class="sec-desc">Mapa, indicadores e status de todos os projetos do sandbox em tempo real. Atualiza sozinho — sem recarregar a página.</p>
+    </div>
+
+    <div class="viz-toolbar reveal">
+      <div class="viz-live"><span class="viz-live-dot"></span> Ao vivo</div>
+      <div class="viz-updated">Atualizado <span data-viz="updated">agora</span></div>
+      <div class="viz-filters" data-viz="filters" role="group" aria-label="Filtrar por status"></div>
+    </div>
+
+    <div class="viz-grid reveal">
+      <div class="viz-map-card">
+        <div class="viz-card-head">
+          <h3>Mapa do sandbox — São Geraldo</h3>
+          <span class="viz-card-sub">Posição esquemática dos projetos no bairro</span>
+        </div>
+        <div class="viz-map" data-viz="map" aria-label="Mapa esquemático com os projetos do sandbox">
+          <svg class="viz-map-bg" viewBox="0 0 100 70" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <pattern id="vizgrid" width="10" height="10" patternUnits="userSpaceOnUse">
+                <path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="0.4"/>
+              </pattern>
+            </defs>
+            <rect width="100" height="70" fill="url(#vizgrid)"/>
+            <path class="viz-river" d="M -2 14 C 25 22, 40 4, 60 16 S 95 26, 104 20" fill="none" stroke="rgba(76,201,240,0.25)" stroke-width="2.4"/>
+            <path class="viz-road" d="M 8 0 L 22 70" stroke="rgba(255,255,255,0.08)" stroke-width="1.4" fill="none"/>
+            <path class="viz-road" d="M 50 0 L 50 70" stroke="rgba(255,255,255,0.08)" stroke-width="1.4" fill="none"/>
+            <path class="viz-road" d="M 0 40 L 100 34" stroke="rgba(255,255,255,0.08)" stroke-width="1.4" fill="none"/>
+            <path class="viz-zone" d="M 30 12 L 84 18 L 80 60 L 26 54 Z" fill="rgba(255,210,63,0.04)" stroke="rgba(255,210,63,0.35)" stroke-width="0.6" stroke-dasharray="2 1.5"/>
+          </svg>
+          <div class="viz-map-pins" data-viz="pins"></div>
+          <div class="viz-map-empty" data-viz="map-empty" hidden>Nenhum projeto publicado ainda.</div>
+        </div>
+      </div>
+
+      <div class="viz-side">
+        <div class="viz-stats" data-viz="stats"></div>
+        <div class="viz-chart-card">
+          <div class="viz-card-head"><h3>Projetos por área</h3></div>
+          <div class="viz-bars" data-viz="areas"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="viz-list-card reveal">
+      <div class="viz-card-head">
+        <h3>Projetos no sandbox</h3>
+        <a href="/docs/api" class="viz-api-link">Acessar os dados via API →</a>
+      </div>
+      <div class="viz-list" data-viz="list" aria-live="polite"></div>
+    </div>
+  </div>
+</section>
 
 <!-- SOBRE -->
 <section class="about" id="sobre">
@@ -598,11 +646,11 @@
       </div>
       <form class="contact-form reveal">
         <div class="form-row">
-          <input type="text" placeholder="Seu nome" required>
-          <input type="email" placeholder="Seu e-mail" required>
+          <input type="text" name="name" placeholder="Seu nome" autocomplete="name" required>
+          <input type="email" name="email" placeholder="Seu e-mail" autocomplete="email" required>
         </div>
-        <input type="text" placeholder="Nome da empresa">
-        <select required>
+        <input type="text" name="company" placeholder="Nome da empresa" autocomplete="organization">
+        <select name="area" required>
           <option value="" disabled selected>Área de interesse</option>
           <option value="mobilidade">Mobilidade urbana</option>
           <option value="energia">Energia inteligente</option>
@@ -611,7 +659,7 @@
           <option value="dados">Dados e IoT</option>
           <option value="outro">Outro</option>
         </select>
-        <textarea placeholder="Descreva brevemente seu projeto ou dúvida"></textarea>
+        <textarea name="message" placeholder="Descreva brevemente seu projeto ou dúvida"></textarea>
         <button type="submit" class="btn-solid">Enviar mensagem</button>
         <p class="form-feedback" role="status" aria-live="polite"></p>
       </form>
@@ -721,6 +769,10 @@
         <li><a href="#como-funciona">Como participar</a></li>
         <li><a href="#faq">Perguntas frequentes</a></li>
         <li><a href="#contato">Contato</a></li>
+        <li><a href="#painel">Painel ao vivo</a></li>
+        <li><a href="/docs/api">API de dados abertos</a></li>
+        <li><a href="/portal">Portal do participante</a></li>
+        <li><a href="/admin">Administração</a></li>
       </ul>
     </div>
     <div class="footer-col">
@@ -739,10 +791,3 @@
       <span class="fpartner">UNIJUÍ</span>
       <span class="fpartner">Prefeitura de Ijuí</span>
       <span class="fpartner">Coprel Telecom</span>
-    </div>
-  </div>
-</footer>
-<script src="site-data.js"></script>
-<script src="script.js" defer></script>
-</body>
-</html>

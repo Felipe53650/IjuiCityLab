@@ -554,40 +554,91 @@ function updateActiveNav() {
 window.addEventListener('scroll', updateActiveNav, { passive: true });
 updateActiveNav();
 
+const API_BASE = '/api';
+
+async function postJson(path, body) {
+  const res = await fetch(API_BASE + path, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+  const text = await res.text();
+  const data = text ? JSON.parse(text) : null;
+  if (!res.ok) throw new Error(data?.error || 'Não foi possível enviar agora. Tente novamente em instantes.');
+  return data;
+}
+
+function setFeedback(el, message, type) {
+  if (!el) return;
+  el.textContent = message;
+  el.classList.remove('is-ok', 'is-error');
+  if (type) el.classList.add(type === 'ok' ? 'is-ok' : 'is-error');
+}
+
 document.querySelectorAll('.contact-form').forEach((form) => {
   const feedback = form.querySelector('.form-feedback');
+  const submitBtn = form.querySelector('button[type="submit"]');
 
-  form.addEventListener('submit', (event) => {
+  form.addEventListener('submit', async (event) => {
     event.preventDefault();
+    if (!form.checkValidity()) { form.reportValidity(); return; }
 
-    if (!form.checkValidity()) {
-      form.reportValidity();
-      return;
+    const data = new FormData(form);
+    const payload = {
+      name:    data.get('name')    || '',
+      email:   data.get('email')   || '',
+      company: data.get('company') || '',
+      area:    data.get('area')    || '',
+      message: data.get('message') || '',
+    };
+
+    submitBtn && (submitBtn.disabled = true);
+    setFeedback(feedback, 'Enviando…');
+    try {
+      await postJson('/contact', payload);
+      setFeedback(feedback, 'Mensagem registrada. A equipe do Ijuí City Lab entrará em contato em breve.', 'ok');
+      form.reset();
+    } catch (err) {
+      setFeedback(feedback, err.message, 'error');
+    } finally {
+      submitBtn && (submitBtn.disabled = false);
     }
-
-    if (feedback) {
-      feedback.textContent = 'Mensagem registrada. A equipe do Ijuí City Lab entrará em contato em breve.';
-    }
-
-    form.reset();
   });
 });
 
 document.querySelectorAll('.proposal-form').forEach((form) => {
   const feedback = form.querySelector('.proposal-feedback');
+  const submitBtn = form.querySelector('button[type="submit"]');
 
-  form.addEventListener('submit', (event) => {
+  form.addEventListener('submit', async (event) => {
     event.preventDefault();
+    if (!form.checkValidity()) { form.reportValidity(); return; }
 
-    if (!form.checkValidity()) {
-      form.reportValidity();
-      return;
+    const data = new FormData(form);
+    const payload = {
+      nome: data.get('nome') || '',
+      email: data.get('email') || '',
+      proponente: data.get('proponente') || '',
+      cnpj: data.get('cnpj') || '',
+      perfil: data.get('perfil') || '',
+      area: data.get('area') || '',
+      estagio: data.get('estagio') || '',
+      objetivo: data.get('objetivo') || '',
+      resumo: data.get('resumo') || '',
+    };
+
+    submitBtn && (submitBtn.disabled = true);
+    setFeedback(feedback, 'Enviando proposta…');
+    try {
+      await postJson('/proposals', payload);
+      const okMsg = siteData.participation?.confirmationMessage
+        || 'Proposta registrada! A equipe do Ijuí City Lab entrará em contato para os próximos passos.';
+      setFeedback(feedback, okMsg + ' Você também pode acompanhar suas propostas em /portal.', 'ok');
+      form.reset();
+    } catch (err) {
+      setFeedback(feedback, err.message, 'error');
+    } finally {
+      submitBtn && (submitBtn.disabled = false);
     }
-
-    if (feedback) {
-      feedback.textContent = siteData.participation?.confirmationMessage || 'Proposta registrada nesta versão demonstrativa. Para envio oficial, entre em contato com a equipe do Ijuí City Lab.';
-    }
-
-    form.reset();
   });
 });
