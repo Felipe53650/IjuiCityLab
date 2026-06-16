@@ -1,6 +1,6 @@
 # IjuiCityLab
 
-Plataforma do **Ijuí City Lab** — laboratório urbano de inovação e sandbox
+Plataforma do **Impulsa Ijuí** — laboratório urbano de inovação e sandbox
 regulatório no bairro São Geraldo (Ijuí/RS).
 
 Aplicação única em **Astro SSR + SQLite** (`astro/`) que reúne:

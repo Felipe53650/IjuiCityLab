@@ -45,6 +45,18 @@ function showApp() {
   switchView('dashboard');
 }
 
+function showAuthMode(mode) {
+  const forms = {
+    login: '#loginForm',
+    forgot: '#forgotForm',
+    reset: '#resetForm',
+  };
+  Object.entries(forms).forEach(([name, selector]) => {
+    const form = $(selector);
+    if (form) form.hidden = name !== mode;
+  });
+}
+
 function switchView(name) {
   $$('.tab').forEach((b) => b.classList.toggle('active', b.dataset.view === name));
   $$('.view').forEach((s) => (s.hidden = s.dataset.view !== name));
@@ -67,6 +79,46 @@ $('#loginForm').addEventListener('submit', async (e) => {
 document.addEventListener('click', (e) => {
   if (e.target.matches('.tab')) switchView(e.target.dataset.view);
   if (e.target.matches('.logout')) clearSession();
+  if (e.target.dataset.authMode) showAuthMode(e.target.dataset.authMode);
+});
+
+$('#forgotForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const f = e.currentTarget, fb = $('.feedback', f);
+  const box = $('#forgotResult');
+  const link = $('#forgotResetUrl');
+  fb.textContent = ''; fb.className = 'feedback';
+  box.hidden = true;
+  link.textContent = '';
+  link.removeAttribute('href');
+  try {
+    const result = await api('/auth/forgot-password', {
+      method: 'POST',
+      body: JSON.stringify({ email: f.email.value, role: 'admin' }),
+    });
+    fb.textContent = result.message || 'Se o e-mail existir, enviaremos instrucoes.'; fb.classList.add('ok');
+    if (result.resetUrl) {
+      link.href = result.resetUrl;
+      link.textContent = result.resetUrl;
+      box.hidden = false;
+    }
+  } catch (err) { fb.textContent = err.message; fb.classList.add('error'); }
+});
+
+$('#resetForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const f = e.currentTarget, fb = $('.feedback', f);
+  fb.textContent = ''; fb.className = 'feedback';
+  try {
+    await api('/auth/reset-password', {
+      method: 'POST',
+      body: JSON.stringify({ token: f.token.value, password: f.password.value }),
+    });
+    fb.textContent = 'Senha atualizada. Entre com a nova senha.'; fb.classList.add('ok');
+    f.reset();
+    history.replaceState(null, '', location.pathname);
+    setTimeout(() => showAuthMode('login'), 900);
+  } catch (err) { fb.textContent = err.message; fb.classList.add('error'); }
 });
 
 async function loadDashboard() {
@@ -293,6 +345,14 @@ function esc(s) {
 }
 
 (function restore() {
+  const params = new URLSearchParams(location.search);
+  const resetToken = params.get('reset');
+  if (resetToken) {
+    localStorage.removeItem(TOKEN_KEY);
+    $('#resetForm').token.value = resetToken;
+    showAuthMode('reset');
+    return;
+  }
   const raw = localStorage.getItem(TOKEN_KEY);
   if (!raw) return;
   try {

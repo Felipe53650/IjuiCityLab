@@ -2,13 +2,16 @@ import crypto from 'node:crypto';
 import db from './db.js';
 import { httpError } from './http.js';
 
-// Formato da chave entregue ao usuário: icl_<prefix>_<secret>
+// Formato da chave entregue ao usuário: impulsa_<prefix>_<secret>
 // Guardamos apenas o hash SHA-256 do segredo + o prefixo (para lookup e exibição).
+
+const PUBLIC_KEY_NAMESPACE = 'impulsa';
+const LEGACY_KEY_NAMESPACE = 'icl';
 
 export function generateKey() {
   const prefix = crypto.randomBytes(6).toString('hex'); // 12 chars
   const secret = crypto.randomBytes(24).toString('base64url'); // 32 chars
-  const full = `icl_${prefix}_${secret}`;
+  const full = `${PUBLIC_KEY_NAMESPACE}_${prefix}_${secret}`;
   const hash = hashSecret(secret);
   return { prefix, secret, full, hash };
 }
@@ -19,7 +22,8 @@ function hashSecret(secret) {
 
 function parseKey(raw) {
   if (typeof raw !== 'string') return null;
-  const m = raw.match(/^icl_([0-9a-f]{12})_(.+)$/);
+  const namespacePattern = `(?:${PUBLIC_KEY_NAMESPACE}|${LEGACY_KEY_NAMESPACE})`;
+  const m = raw.match(new RegExp(`^${namespacePattern}_([0-9a-f]{12})_(.+)$`));
   if (!m) return null;
   return { prefix: m[1], secret: m[2] };
 }
