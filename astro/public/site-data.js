@@ -1,7 +1,7 @@
 window.ICL_SITE_DATA = {
   sandboxMap: {
     title: 'Onde fica a sandbox',
-    description: 'A área experimental do Ijuí City Lab está concentrada no bairro São Geraldo, em Ijuí/RS. Use este mapa como ponto de referência para visitas, prospecção de projetos e planejamento de implantação.',
+    description: 'A área experimental do Impulsa Ijuí está concentrada no bairro São Geraldo, em Ijuí/RS. Use este mapa como ponto de referência para visitas, prospecção de projetos e planejamento de implantação.',
     embedUrl: 'https://www.google.com/maps?q=Bairro%20S%C3%A3o%20Geraldo%2C%20Iju%C3%AD%20-%20RS&output=embed',
     externalUrl: 'https://www.google.com/maps/search/?api=1&query=Bairro%20S%C3%A3o%20Geraldo%2C%20Iju%C3%AD%20-%20RS',
     address: 'Bairro São Geraldo, Ijuí - RS',
@@ -65,7 +65,7 @@ window.ICL_SITE_DATA = {
       result: 'Soluções de cidade inteligente testadas e validadas no bairro São Geraldo com dados reais.',
       metric: '3 projetos pilotos',
       detail: 'Monitoramento de tráfego, iluminação inteligente e sensores ambientais em funcionamento contínuo.',
-      source: 'Ijuí City Lab',
+      source: 'Impulsa Ijuí',
       sourceUrl: '#projetos',
       updatedAt: '2026-06-08'
     },
@@ -75,7 +75,7 @@ window.ICL_SITE_DATA = {
       result: 'Instituições públicas, acadêmicas e privadas trabalhando integradas para testar inovações urbanas.',
       metric: '8 empresas + 2 instituições',
       detail: 'UNIJUÍ, Prefeitura de Ijuí, Coprel, e 8 empresas de tecnologia operando na sandbox.',
-      source: 'Ijuí City Lab',
+      source: 'Impulsa Ijuí',
       sourceUrl: '#ecossistema',
       updatedAt: '2026-06-08'
     },
@@ -85,7 +85,7 @@ window.ICL_SITE_DATA = {
       result: 'Dados urbanos reais coletados e agregados para orientar decisões e pesquisa aplicada.',
       metric: '12+ indicadores',
       detail: 'Tráfego, energia, qualidade do ar, ruído, clima e outros dados disponíveis via API do Lab.',
-      source: 'Ijuí City Lab',
+      source: 'Impulsa Ijuí',
       sourceUrl: '#dados-regionais',
       updatedAt: '2026-06-08'
     }
@@ -93,7 +93,7 @@ window.ICL_SITE_DATA = {
 
   participation: {
     title: 'Submeta sua proposta',
-    description: 'Apresente uma solução para testar no bairro São Geraldo com apoio técnico, dados urbanos e acompanhamento regulatório do Ijuí City Lab.',
+    description: 'Apresente uma solução para testar no bairro São Geraldo com apoio técnico, dados urbanos e acompanhamento regulatório do Impulsa Ijuí.',
     criteria: [
       {
         title: 'MEI, startup ou empresa',
@@ -150,11 +150,11 @@ window.ICL_SITE_DATA = {
       'Solução em operação',
       'Escala comercial'
     ],
-    confirmationMessage: 'Proposta registrada nesta versão demonstrativa. Para envio oficial, entre em contato com a equipe do Ijuí City Lab.'
+    confirmationMessage: 'Proposta registrada nesta versão demonstrativa. Para envio oficial, entre em contato com a equipe do Impulsa Ijuí.'
   },
 
   regionalStats: {
-    intro: 'Métricas e indicadores do Ijuí City Lab e do bairro São Geraldo. Dados públicos, agregados e anonimizados para orientar decisões urbanas e oportunidades de inovação.',
+    intro: 'Métricas e indicadores do Impulsa Ijuí e do bairro São Geraldo. Dados públicos, agregados e anonimizados para orientar decisões urbanas e oportunidades de inovação.',
     metrics: [
       {
         label: 'População do bairro São Geraldo',
@@ -170,7 +170,7 @@ window.ICL_SITE_DATA = {
         value: '1.0',
         suffix: 'km²',
         description: 'Extensão do bairro São Geraldo destinada aos testes de soluções de cidade inteligente.',
-        source: 'Ijuí City Lab',
+        source: 'Impulsa Ijuí',
         sourceUrl: '#mapa-sandbox',
         updatedAt: '2026-06-08'
       },
@@ -188,7 +188,7 @@ window.ICL_SITE_DATA = {
         value: '16',
         suffix: 'sensores',
         description: 'Câmeras, sensores de iluminação e medidores ambientais operando continuamente no bairro.',
-        source: 'Ijuí City Lab',
+        source: 'Impulsa Ijuí',
         sourceUrl: '#dados-regionais',
         updatedAt: '2026-06-08'
       }
@@ -202,7 +202,7 @@ window.ICL_SITE_DATA = {
     ],
     sources: [
       {
-        label: 'API do Ijuí City Lab',
+        label: 'API do Impulsa Ijuí',
         url: '#contato'
       },
       {

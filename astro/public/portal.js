@@ -60,15 +60,26 @@ function switchView(name) {
   if (name === 'api') loadApiTab();
 }
 
+function showAuthMode(mode) {
+  const forms = {
+    login: '#loginForm',
+    register: '#registerForm',
+    forgot: '#forgotForm',
+    reset: '#resetForm',
+  };
+  Object.entries(forms).forEach(([name, selector]) => {
+    const form = $(selector);
+    if (form) form.hidden = name !== mode;
+  });
+  $$('.auth-tab').forEach((b) => b.classList.toggle('active', b.dataset.mode === mode));
+}
+
 document.addEventListener('click', (e) => {
   if (e.target.matches('.tab')) switchView(e.target.dataset.view);
   if (e.target.matches('.logout')) clearSession();
   if (e.target.dataset.go) switchView(e.target.dataset.go);
   if (e.target.matches('.auth-tab')) {
-    const m = e.target.dataset.mode;
-    $$('.auth-tab').forEach((b) => b.classList.toggle('active', b === e.target));
-    $('#loginForm').hidden = m !== 'login';
-    $('#registerForm').hidden = m !== 'register';
+    showAuthMode(e.target.dataset.mode);
   }
 });
 
@@ -88,6 +99,45 @@ $('#registerForm').addEventListener('submit', async (e) => {
   const body = { name: f.name.value, email: f.email.value, password: f.password.value, company: f.company.value, cnpj: f.cnpj.value, phone: f.phone.value };
   try {
     setSession(await api('/auth/register', { method: 'POST', body: JSON.stringify(body) }));
+  } catch (err) { fb.textContent = err.message; fb.classList.add('error'); }
+});
+
+$('#forgotForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const f = e.currentTarget, fb = $('.feedback', f);
+  const box = $('#forgotResult');
+  const link = $('#forgotResetUrl');
+  fb.textContent = ''; fb.className = 'feedback';
+  box.hidden = true;
+  link.textContent = '';
+  link.removeAttribute('href');
+  try {
+    const result = await api('/auth/forgot-password', {
+      method: 'POST',
+      body: JSON.stringify({ email: f.email.value, role: 'participant' }),
+    });
+    fb.textContent = result.message || 'Se o e-mail existir, enviaremos instrucoes.'; fb.classList.add('ok');
+    if (result.resetUrl) {
+      link.href = result.resetUrl;
+      link.textContent = result.resetUrl;
+      box.hidden = false;
+    }
+  } catch (err) { fb.textContent = err.message; fb.classList.add('error'); }
+});
+
+$('#resetForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const f = e.currentTarget, fb = $('.feedback', f);
+  fb.textContent = ''; fb.className = 'feedback';
+  try {
+    await api('/auth/reset-password', {
+      method: 'POST',
+      body: JSON.stringify({ token: f.token.value, password: f.password.value }),
+    });
+    fb.textContent = 'Senha atualizada. Entre com a nova senha.'; fb.classList.add('ok');
+    f.reset();
+    history.replaceState(null, '', location.pathname);
+    setTimeout(() => showAuthMode('login'), 900);
   } catch (err) { fb.textContent = err.message; fb.classList.add('error'); }
 });
 
@@ -164,7 +214,7 @@ async function loadApiTab() {
 
   $('#keysTable tbody').innerHTML = keys.map((k) => `
     <tr>
-      <td>${esc(k.name)}</td><td><code>icl_${esc(k.prefix)}…</code></td><td>${SCOPE_LABEL[k.scope] || k.scope}</td>
+      <td>${esc(k.name)}</td><td><code>impulsa_${esc(k.prefix)}…</code></td><td>${SCOPE_LABEL[k.scope] || k.scope}</td>
       <td>${k.last_used_at ? fmtDate(k.last_used_at) : '—'}</td>
       <td>${k.revoked ? '<span class="key-revoked">Revogada</span>' : 'Ativa'}</td>
       <td>${k.revoked ? '' : `<button class="btn danger" data-revoke="${k.id}">Revogar</button>`}</td>
@@ -239,6 +289,14 @@ function esc(s) {
 }
 
 (function restore() {
+  const params = new URLSearchParams(location.search);
+  const resetToken = params.get('reset');
+  if (resetToken) {
+    localStorage.removeItem(TOKEN_KEY);
+    $('#resetForm').token.value = resetToken;
+    showAuthMode('reset');
+    return;
+  }
   const raw = localStorage.getItem(TOKEN_KEY);
   if (!raw) return;
   try {

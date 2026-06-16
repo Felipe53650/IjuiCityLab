@@ -1,13 +1,20 @@
 import path from 'node:path';
 import fs from 'node:fs';
-import { fileURLToPath } from 'node:url';
 import Database from 'better-sqlite3';
 import bcrypt from 'bcryptjs';
+import { projectRoot } from './env.js';
 
-const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
+const defaultDbFile = process.env.VERCEL
+  ? path.join('/tmp', 'impulsa.sqlite')
+  : path.join(projectRoot, 'data', 'icl.sqlite');
+
 const dbFile = process.env.DB_FILE
   ? path.resolve(projectRoot, process.env.DB_FILE)
-  : path.join(projectRoot, 'data', 'icl.sqlite');
+  : defaultDbFile;
+
+if (process.env.VERCEL && dbFile.startsWith('/tmp')) {
+  console.warn('[db] usando SQLite temporario em /tmp; use banco persistente para producao.');
+}
 
 fs.mkdirSync(path.dirname(dbFile), { recursive: true });
 
@@ -103,6 +110,16 @@ db.exec(`
     created_at    TEXT NOT NULL DEFAULT (datetime('now'))
   );
 
+  CREATE TABLE IF NOT EXISTS password_reset_tokens (
+    id             INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id        INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    token_hash     TEXT NOT NULL UNIQUE,
+    requested_role TEXT NOT NULL CHECK(requested_role IN ('participant','admin')),
+    expires_at     TEXT NOT NULL,
+    used_at        TEXT,
+    created_at     TEXT NOT NULL DEFAULT (datetime('now'))
+  );
+
   CREATE INDEX IF NOT EXISTS idx_proposals_user   ON proposals(user_id);
   CREATE INDEX IF NOT EXISTS idx_proposals_status ON proposals(status);
   CREATE INDEX IF NOT EXISTS idx_contacts_status  ON contacts(status);
@@ -111,6 +128,8 @@ db.exec(`
   CREATE INDEX IF NOT EXISTS idx_apikeys_user      ON api_keys(user_id);
   CREATE INDEX IF NOT EXISTS idx_meas_project      ON measurements(project_id);
   CREATE INDEX IF NOT EXISTS idx_meas_metric       ON measurements(project_id, metric, recorded_at);
+  CREATE INDEX IF NOT EXISTS idx_reset_user        ON password_reset_tokens(user_id);
+  CREATE INDEX IF NOT EXISTS idx_reset_hash        ON password_reset_tokens(token_hash);
 `);
 
 // Administrador inicial a partir das variáveis de ambiente (só na primeira vez).

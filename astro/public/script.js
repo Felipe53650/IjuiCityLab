@@ -596,7 +596,7 @@ document.querySelectorAll('.contact-form').forEach((form) => {
     setFeedback(feedback, 'Enviando…');
     try {
       await postJson('/contact', payload);
-      setFeedback(feedback, 'Mensagem registrada. A equipe do Ijuí City Lab entrará em contato em breve.', 'ok');
+      setFeedback(feedback, 'Mensagem registrada. A equipe do Impulsa Ijuí entrará em contato em breve.', 'ok');
       form.reset();
     } catch (err) {
       setFeedback(feedback, err.message, 'error');
@@ -632,7 +632,7 @@ document.querySelectorAll('.proposal-form').forEach((form) => {
     try {
       await postJson('/proposals', payload);
       const okMsg = siteData.participation?.confirmationMessage
-        || 'Proposta registrada! A equipe do Ijuí City Lab entrará em contato para os próximos passos.';
+        || 'Proposta registrada! A equipe do Impulsa Ijuí entrará em contato para os próximos passos.';
       setFeedback(feedback, okMsg + ' Você também pode acompanhar suas propostas em /portal.', 'ok');
       form.reset();
     } catch (err) {
