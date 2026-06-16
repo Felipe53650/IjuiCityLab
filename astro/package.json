@@ -19,6 +19,7 @@
     "jsonwebtoken": "^9.0.2"
   },
   "overrides": {
-    "esbuild": "^0.28.1"
+    "esbuild": "^0.28.1",
+    "path-to-regexp": "^8.2.0"
   }
 }
