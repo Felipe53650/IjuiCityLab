@@ -1,4 +1,4 @@
-/* Painel ao vivo do Ijuí City Lab — busca /api/visualizer e atualiza sozinho. */
+/* Painel ao vivo do Impulsa Ijuí — busca /api/visualizer e atualiza sozinho. */
 (function () {
   const root = document.getElementById('painel');
   if (!root) return;

@@ -3,14 +3,25 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ijuí City Lab — Portal do Participante</title>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <title>Impulsa Ijuí — Portal do Participante</title>
+  <meta name="description" content="Portal do participante do Impulsa Ijuí para acompanhar propostas, projetos e chaves de API." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/portal.css" />
 </head>
 <body>
+<div class="portal-bg" aria-hidden="true"></div>
 
 <header class="topbar" hidden>
-  <a class="brand" href="/"><strong>ICL</strong> <span>Portal do participante</span></a>
+  <a class="brand" href="/" aria-label="Impulsa Ijuí">
+    <span class="logo-mark">II</span>
+    <span class="logo-text">
+      <span class="logo-name">IMPULSA</span>
+      <span class="logo-sub">IJUÍ</span>
+    </span>
+    <span class="brand-section">Portal</span>
+  </a>
   <nav class="tabs">
     <button class="tab active" data-view="proposals">Minhas propostas</button>
     <button class="tab" data-view="new">Nova proposta</button>
@@ -24,14 +35,34 @@
 </header>
 
 <main class="auth-wrap">
+  <section class="auth-hero" aria-label="Portal do participante">
+    <a class="brand auth-brand" href="/" aria-label="Impulsa Ijuí">
+      <span class="logo-mark">II</span>
+      <span class="logo-text">
+        <span class="logo-name">IMPULSA</span>
+        <span class="logo-sub">IJUÍ</span>
+      </span>
+    </a>
+    <div class="sec-tag">Portal do participante</div>
+    <h1>Operar dentro do Lab</h1>
+    <p>Acompanhe propostas, projetos aprovados e integrações de dados no mesmo ambiente do sandbox São Geraldo.</p>
+    <div class="auth-metrics" aria-label="Etapas do participante">
+      <div><strong>01</strong><span>Proposta</span></div>
+      <div><strong>02</strong><span>Avaliação</span></div>
+      <div><strong>03</strong><span>Dados</span></div>
+    </div>
+  </section>
+
+  <section class="auth-panel">
   <div class="auth-tabs">
     <button class="auth-tab active" data-mode="login">Entrar</button>
     <button class="auth-tab" data-mode="register">Criar conta</button>
+    <button class="auth-tab" data-mode="forgot">Esqueci minha senha</button>
   </div>
 
   <form class="card auth-card" id="loginForm">
     <h1>Acessar portal</h1>
-    <p class="muted">Acompanhe suas propostas e integre seus dados ao Ijuí City Lab.</p>
+    <p class="muted">Acompanhe suas propostas e integre seus dados ao Impulsa Ijuí.</p>
     <label>E-mail<input type="email" name="email" required autocomplete="username" /></label>
     <label>Senha<input type="password" name="password" required autocomplete="current-password" /></label>
     <button type="submit" class="btn primary">Entrar</button>
@@ -50,9 +81,40 @@
     <button type="submit" class="btn primary">Criar conta</button>
     <p class="feedback" role="status" aria-live="polite"></p>
   </form>
+
+  <form class="card auth-card" id="forgotForm" hidden>
+    <h1>Recuperar senha</h1>
+    <p class="muted">Informe o e-mail da sua conta de participante para gerar um link de redefinição.</p>
+    <label>E-mail<input type="email" name="email" required autocomplete="email" /></label>
+    <button type="submit" class="btn primary">Gerar link</button>
+    <p class="feedback" role="status" aria-live="polite"></p>
+    <div class="reset-box" id="forgotResult" hidden>
+      <strong>Link de redefinição</strong>
+      <p>Enquanto não há envio de e-mail configurado, use este link local para continuar.</p>
+      <a id="forgotResetUrl" href="#"></a>
+    </div>
+  </form>
+
+  <form class="card auth-card" id="resetForm" hidden>
+    <h1>Nova senha</h1>
+    <p class="muted">Cole o código recebido ou use o link gerado para preencher automaticamente.</p>
+    <label>Código de recuperação<input type="text" name="token" required autocomplete="one-time-code" /></label>
+    <label>Nova senha<input type="password" name="password" minlength="8" required autocomplete="new-password" /></label>
+    <button type="submit" class="btn primary">Atualizar senha</button>
+    <p class="feedback" role="status" aria-live="polite"></p>
+  </form>
+</section>
 </main>
 
 <main class="app-wrap" hidden>
+  <div class="app-hero">
+    <div>
+      <div class="sec-tag">Área do participante</div>
+      <h1>Propostas, projetos e dados</h1>
+      <p>Gerencie sua jornada no sandbox regulatório do Impulsa Ijuí.</p>
+    </div>
+    <a href="/" class="btn">Site público</a>
+  </div>
 
   <section class="view" data-view="proposals">
     <div class="view-head">

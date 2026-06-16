@@ -1,3 +1,4 @@
+import './env.js';
 import jwt from 'jsonwebtoken';
 import { httpError } from './http.js';
 

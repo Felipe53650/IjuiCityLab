@@ -1,19 +1,19 @@
 <nav class="docs-nav">
-  <a class="brand" href="/"><strong>ICL</strong> <span>API de Dados Abertos</span></a>
+  <a class="brand" href="/"><strong>II</strong> <span>API de Dados Abertos</span></a>
   <a href="/portal" class="btn-ghost">Gerar chave no portal →</a>
 </nav>
 
 <main class="docs">
   <header class="docs-hero">
     <span class="tag">Open Data API · v1</span>
-    <h1>API de Dados do Ijuí City Lab</h1>
+    <h1>API de Dados do Impulsa Ijuí</h1>
     <p>Acesse de forma programática os dados publicados pelos projetos do sandbox e envie automaticamente os dados das suas soluções. Base aberta para você usar em pesquisas, dashboards e seus próprios projetos.</p>
   </header>
 
   <section class="card">
     <h2>1. Autenticação</h2>
     <p>Toda requisição exige uma chave de API no cabeçalho <code>X-API-Key</code>. Qualquer participante cadastrado pode gerar chaves gratuitas no <a href="/portal">portal</a> (aba <strong>API &amp; Dados</strong>). Cada chave tem um escopo: <code>read</code> (ler), <code>ingest</code> (enviar) ou <code>read_ingest</code> (ambos).</p>
-    <pre class="code-block">X-API-Key: icl_xxxxxxxxxxxx_xxxxxxxxxxxxxxxxxxxxxxxx</pre>
+    <pre class="code-block">X-API-Key: impulsa_xxxxxxxxxxxx_xxxxxxxxxxxxxxxxxxxxxxxx</pre>
     <p class="muted">A chave completa é exibida uma única vez, no momento da criação. Guarde-a com segurança; se vazar, revogue e gere outra.</p>
   </section>
 
@@ -103,6 +103,6 @@ curl "https://SEU_DOMINIO/api/v1/measurements?project=monitoramento-trafego-ia&f
 
   <footer class="docs-foot">
     <a href="/">← Voltar ao site</a>
-    <span>Ijuí City Lab · Dados abertos sob LGPD · São Geraldo, Ijuí/RS</span>
+    <span>Impulsa Ijuí · Dados abertos sob LGPD · São Geraldo, Ijuí/RS</span>
   </footer>
 </main>

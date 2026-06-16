@@ -1,4 +1,4 @@
-# Ijuí City Lab — App Astro (SSR)
+# Impulsa Ijuí — App Astro (SSR)
 
 Aplicação única em **Astro SSR** que serve **tudo**: o site público, o painel
 ao vivo de projetos, o portal do participante, a área de administração e toda a
@@ -109,6 +109,50 @@ guardadas apenas como hash SHA-256; o segredo é exibido uma única vez.
 
 ## Deploy
 
-Processo Node único + arquivo SQLite — roda em qualquer host (Render, Fly,
-Railway, VPS). Em produção: `JWT_SECRET` forte, HTTPS no proxy, backup periódico
-de `data/icl.sqlite`.
+### Vercel
+
+O projeto esta preparado para Vercel com `@astrojs/vercel`. Em deploy
+local normal ele continua usando `@astrojs/node`.
+
+Pela interface da Vercel:
+
+1. Importe o repositorio.
+2. Configure **Root Directory** como `astro`.
+3. Framework: Astro.
+4. Build command: `npm run build`.
+5. Configure as variaveis de ambiente abaixo em Production e Preview.
+
+Pela CLI:
+
+```bash
+cd astro
+npx vercel login
+npx vercel
+npx vercel --prod
+```
+
+Variaveis obrigatorias/recomendadas:
+
+```bash
+JWT_SECRET=uma-string-longa-e-aleatoria
+JWT_EXPIRES_IN=7d
+ADMIN_NAME=Administrador Impulsa Ijui
+ADMIN_EMAIL=admin@impulsaijui.com.br
+ADMIN_PASSWORD=troque-esta-senha
+PASSWORD_RESET_EXPIRES_MINUTES=30
+PASSWORD_RESET_SHOW_LINK=false
+PUBLIC_BASE_URL=https://seu-dominio.vercel.app
+# Necessario se o runtime estiver em Node 22/23, pois node:sqlite ainda e experimental nessas versoes.
+NODE_OPTIONS=--experimental-sqlite
+```
+
+SQLite na Vercel: sem `DB_FILE`, o app usa `/tmp/impulsa.sqlite` para evitar o
+filesystem somente leitura. Isso serve para demo, mas nao persiste dados entre
+instancias/cold starts. Para receber propostas em producao, migre a persistencia
+para um banco externo como Neon/Postgres, Turso/libSQL ou outro storage gerenciado.
+
+### Node tradicional
+
+Processo Node unico + arquivo SQLite roda em hosts com disco persistente (Render,
+Fly, Railway, VPS). Em producao: `JWT_SECRET` forte, HTTPS no proxy e backup
+periodico de `data/icl.sqlite`.
