@@ -1,5 +1,5 @@
 // Valores válidos compartilhados entre validação, API e front.
-export const AREAS    = ['mobilidade', 'energia', 'saude', 'seguranca', 'dados', 'outro'];
+export const AREAS    = ['mobilidade', 'energia', 'saude', 'seguranca', 'dados', 'agronegocio', 'turismo', 'outro'];
 export const PERFIS   = ['startup', 'empresa', 'pesquisador', 'estudante', 'poder-publico', 'outro'];
 export const ESTAGIOS = ['ideia', 'prototipo', 'piloto', 'escala'];
 
@@ -14,5 +14,7 @@ export const AREA_LABEL = {
   saude: 'Saúde e bem-estar',
   seguranca: 'Segurança pública',
   dados: 'Dados e IoT',
+  agronegocio: 'Agronegocio urbano',
+  turismo: 'Turismo e economia local',
   outro: 'Outro',
 };

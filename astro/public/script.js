@@ -150,6 +150,57 @@ function renderRegionalData() {
   }
 }
 
+const participationOptionValues = {
+  profiles: {
+    mei: 'empresa',
+    startup: 'startup',
+    'empresa consolidada': 'empresa',
+    'universidade ou pesquisador': 'pesquisador',
+    governo: 'poder-publico',
+    outro: 'outro',
+  },
+  areas: {
+    'mobilidade urbana': 'mobilidade',
+    'energia inteligente': 'energia',
+    'saude e bem-estar': 'saude',
+    'seguranca publica': 'seguranca',
+    'dados e iot': 'dados',
+    'agronegocio urbano': 'agronegocio',
+    'turismo e economia local': 'turismo',
+    outro: 'outro',
+  },
+  stages: {
+    'ideia estruturada': 'ideia',
+    prototipo: 'prototipo',
+    'piloto pronto para campo': 'piloto',
+    'solucao em operacao': 'escala',
+    'escala comercial': 'escala',
+  },
+};
+
+function optionKey(label) {
+  return String(label || '')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .trim();
+}
+
+function optionParts(item, valueMap) {
+  if (item && typeof item === 'object') {
+    return {
+      label: item.label || item.value || '',
+      value: item.value || valueMap[optionKey(item.label)] || '',
+    };
+  }
+
+  const label = String(item || '');
+  return {
+    label,
+    value: valueMap[optionKey(label)] || label,
+  };
+}
+
 function renderParticipation() {
   const participation = siteData.participation || {};
   const title = document.querySelector('[data-render="participation-title"]');
@@ -185,14 +236,17 @@ function renderParticipation() {
   }
 
   [
-    [profilesTarget, participation.profiles],
-    [areasTarget, participation.interestAreas],
-    [stagesTarget, participation.solutionStages]
-  ].forEach(([target, options]) => {
+    [profilesTarget, participation.profiles, participationOptionValues.profiles],
+    [areasTarget, participation.interestAreas, participationOptionValues.areas],
+    [stagesTarget, participation.solutionStages, participationOptionValues.stages]
+  ].forEach(([target, options, valueMap]) => {
     if (!target) return;
     const currentPlaceholder = target.querySelector('option')?.outerHTML || '';
     const optionList = Array.isArray(options) ? options : [];
-    target.innerHTML = currentPlaceholder + optionList.map((item) => `<option value="${escapeHtml(item)}">${escapeHtml(item)}</option>`).join('');
+    target.innerHTML = currentPlaceholder + optionList.map((item) => {
+      const { label, value } = optionParts(item, valueMap);
+      return `<option value="${escapeHtml(value)}">${escapeHtml(label)}</option>`;
+    }).join('');
   });
 }
 
