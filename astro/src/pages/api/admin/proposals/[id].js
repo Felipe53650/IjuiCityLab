@@ -7,8 +7,12 @@ import { PROPOSAL_STATUS } from '../../../../lib/options.js';
 export const GET = handler(async ({ request, params }) => {
   requireUser(request, 'admin');
   const row = await one(
-    `SELECT p.*, u.email AS user_email, u.name AS user_name
-     FROM proposals p LEFT JOIN users u ON u.id = p.user_id WHERE p.id = ?`
+    `SELECT p.*, u.email AS user_email, u.name AS user_name,
+            pr.id AS project_id, pr.slug AS project_slug, pr.name AS project_name
+     FROM proposals p
+     LEFT JOIN users u ON u.id = p.user_id
+     LEFT JOIN projects pr ON pr.proposal_id = p.id
+     WHERE p.id = ?`
   , [params.id]);
   if (!row) return json({ error: 'Proposta não encontrada' }, 404);
   return json(row);

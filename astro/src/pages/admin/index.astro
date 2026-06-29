@@ -121,40 +121,13 @@
     <div class="view-head">
       <h2>Projetos do sandbox</h2>
     </div>
-    <form id="projectForm" class="card inline-form">
-      <h3>Novo projeto</h3>
-      <div class="row">
-        <input type="text" name="name" placeholder="Nome do projeto" required />
-        <select name="area" required>
-          <option value="" disabled selected>Área</option>
-          <option value="mobilidade">Mobilidade urbana</option>
-          <option value="energia">Energia inteligente</option>
-          <option value="saude">Saúde e bem-estar</option>
-          <option value="seguranca">Segurança pública</option>
-          <option value="dados">Dados e IoT</option>
-          <option value="outro">Outro</option>
-        </select>
-        <select name="status">
-          <option value="planning">Planejado</option>
-          <option value="active">Em operação</option>
-          <option value="paused">Pausado</option>
-          <option value="completed">Concluído</option>
-          <option value="archived">Arquivado</option>
-        </select>
-      </div>
-      <div class="row">
-        <input type="text" name="zone" placeholder="Zona / referência (ex.: Av. Central)" />
-        <input type="number" name="map_x" placeholder="Mapa X (0-100)" min="0" max="100" step="1" />
-        <input type="number" name="map_y" placeholder="Mapa Y (0-100)" min="0" max="100" step="1" />
-        <select name="owner_user_id" id="projectOwner"><option value="">Sem dono</option></select>
-      </div>
-      <textarea name="description" placeholder="Descrição curta do projeto"></textarea>
-      <label class="check"><input type="checkbox" name="is_published" /> Publicar no painel ao vivo</label>
-      <button class="btn primary" type="submit">Criar projeto</button>
-      <p class="feedback" role="status" aria-live="polite"></p>
-    </form>
+    <div class="card flow-note">
+      <h3>Projetos nascem de propostas aprovadas</h3>
+      <p>Abra uma proposta, revise o conteudo e use a acao de publicacao para transforma-la em projeto do sandbox.</p>
+      <button class="btn primary" type="button" data-view-shortcut="proposals">Ver propostas</button>
+    </div>
     <div class="table-wrap"><table id="projectsTable"><thead><tr>
-      <th>Projeto</th><th>Slug</th><th>Área</th><th>Status</th><th>Dono</th><th>Publicado</th><th>Dados</th><th></th>
+      <th>Projeto</th><th>Slug</th><th>Área</th><th>Status</th><th>Dono</th><th>Origem</th><th>Publicado</th><th>Dados</th><th></th>
     </tr></thead><tbody></tbody></table></div>
   </section>
 

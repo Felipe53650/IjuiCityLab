@@ -24,6 +24,13 @@ async function uniqueSlug(base) {
 export const POST = handler(async ({ request }) => {
   requireUser(request, 'admin');
   const b = await readBody(request);
+  if (!b.proposal_id) throw httpError(400, 'Projeto precisa estar vinculado a uma proposta aprovada');
+  const proposalId = num(b.proposal_id, { label: 'proposta' });
+  const proposal = await one('SELECT id, status FROM proposals WHERE id = ?', [proposalId]);
+  if (!proposal) throw httpError(404, 'Proposta nao encontrada');
+  if (proposal.status !== 'approved') throw httpError(400, 'A proposta precisa estar aprovada antes de virar projeto');
+  const existing = await one('SELECT id FROM projects WHERE proposal_id = ?', [proposalId]);
+  if (existing) throw httpError(409, 'Esta proposta ja foi publicada como projeto');
   const name = str(b.name, { label: 'nome', max: 160 });
   const area = oneOf(b.area, AREAS, 'área');
   const data = {
@@ -36,7 +43,7 @@ export const POST = handler(async ({ request }) => {
     map_x: num(b.map_x, { required: false, label: 'map_x', min: 0, max: 100 }),
     map_y: num(b.map_y, { required: false, label: 'map_y', min: 0, max: 100 }),
     owner_user_id: b.owner_user_id ? num(b.owner_user_id, { label: 'dono' }) : null,
-    proposal_id: b.proposal_id ? num(b.proposal_id, { label: 'proposta' }) : null,
+    proposal_id: proposalId,
     is_published: b.is_published ? 1 : 0,
   };
   if (data.owner_user_id) {

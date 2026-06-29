@@ -72,6 +72,25 @@
   margin-top: 16px;
 }
 
+.flow-note {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 18px;
+  max-width: none;
+  margin-top: 16px;
+}
+
+.flow-note h3 {
+  margin-bottom: 6px;
+}
+
+.flow-note p {
+  max-width: 720px;
+  margin-bottom: 0;
+  color: var(--muted);
+}
+
 .inline-form .row {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -168,6 +187,7 @@ dialog form[method="dialog"] {
 @media (max-width: 900px) {
   .inline-form .row,
   .inline-form .row-admin,
+  .flow-note,
   .detail-actions {
     grid-template-columns: 1fr;
   }
